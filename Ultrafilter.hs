@@ -20,6 +20,7 @@ instance Monad Ultrafilter where{
 ; u >>= f = m $ f <$> u where m (Ultra v) = Ultra $ v.(\s (Ultra w) -> w s)
 }
 
-
-
-
+instance (Monoid m) => Monoid (Ultrafilter m) where{
+  mempty = return mempty
+; (Ultra u) `mappend` (Ultra v) = Ultra $ \a -> u $ \x -> v $ \y -> a $ x`mappend`y
+}
