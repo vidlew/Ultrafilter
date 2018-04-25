@@ -1,3 +1,5 @@
+--All ultrafilters that can be defined in Haskell are principal (of the form "return something"), so this module is totally useless.
+
 module Ultrafilter (Ultrafilter) where
 
 data Ultrafilter a = Ultra ((a -> Bool) -> Bool)
