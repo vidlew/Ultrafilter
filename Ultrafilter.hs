@@ -66,5 +66,5 @@ instance (Floating a) => Floating (Ultrafilter a) where{
 }
 
 instance (Eq a) => Eq (Ultrafilter a) where{
-  u == v= measure (u >>= \x -> v >>= \y -> return $ x==y) id
+  u==v = measure (u >>= \x -> v >>= \y -> return $ x==y) id
 }
