@@ -7,7 +7,7 @@ module Ultrafilter
             ) where
 
 --For Ultra u to be an ultrafilter, u must have the following property:
---  For every finite list [p_0, p_1, ... p_k] :: [a -> Bool] with the preperty that, for every x :: a,
+--  For every finite list [p_0, p_1, ... p_k] :: [a -> Bool] with the property that, for every x :: a,
 --  there is exactly one i in [0...k] such that p_i x, there is exactly one i in [0...k] such that u p_i.
 data Ultrafilter a = Ultra ((a -> Bool) -> Bool)
 
@@ -33,4 +33,13 @@ instance Monad Ultrafilter where{
 instance (Monoid m) => Monoid (Ultrafilter m) where{
   mempty = return mempty
 ; (Ultra u) `mappend` (Ultra v) = Ultra $ \a -> u $ \x -> v $ \y -> a $ x`mappend`y
+}
+
+instance (Num a) => Num (Ultrafilter a) where{
+  fromInteger = return.fromInteger
+; (Ultra u) + (Ultra v) = Ultra $ \a -> u $ \x -> v $ \y -> a $ x+y
+; (Ultra u) * (Ultra v) = Ultra $ \a -> u $ \x -> v $ \y -> a $ x*y
+; abs = fmap abs
+; signum = fmap signum
+; negate = fmap negate
 }
