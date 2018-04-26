@@ -14,9 +14,8 @@ data Ultrafilter a = Ultra ((a -> Bool) -> Bool)
 measure :: Ultrafilter a -> (a -> Bool) -> Bool
 measure (Ultra u) s = u s
 
-instance Functor Ultrafilter where{
+instance Functor Ultrafilter where
   fmap f (Ultra u) = Ultra $ u.(.f)
-}
 
 instance Applicative Ultrafilter where{
   pure = return
@@ -65,6 +64,10 @@ instance (Floating a) => Floating (Ultrafilter a) where{
 ; atanh = fmap atanh
 }
 
-instance (Eq a) => Eq (Ultrafilter a) where{
+instance (Eq a) => Eq (Ultrafilter a) where
   u==v = measure (u >>= \x -> v >>= \y -> return $ x==y) id
-}
+
+instance (Show a) => Show (Ultrafilter a) where
+  show u = f s where s = (show <$> u)
+                     f s = if s == return "" then "" else (g ['\0'..] $ head <$> s):(f $ tail <$> s)
+                     g (c:cs) d = if return c == d then c else g cs d
