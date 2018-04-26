@@ -43,3 +43,28 @@ instance (Num a) => Num (Ultrafilter a) where{
 ; signum = fmap signum
 ; negate = fmap negate
 }
+
+instance (Fractional a) => Fractional (Ultrafilter a) where{
+  fromRational = return.fromRational
+; recip = fmap recip
+}
+
+instance (Floating a) => Floating (Ultrafilter a) where{
+  pi = return pi
+; exp = fmap exp
+; log = fmap log
+; sin = fmap sin
+; cos = fmap cos
+; asin = fmap asin
+; acos = fmap acos
+; atan = fmap atan
+; sinh = fmap sinh
+; cosh = fmap cosh
+; asinh = fmap asinh
+; acosh = fmap acosh
+; atanh = fmap atanh
+}
+
+instance (Eq a) => Eq (Ultrafilter a) where{
+  u == v= measure (u >>= \x -> v >>= \y -> return $ x==y) id
+}
